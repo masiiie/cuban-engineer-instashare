@@ -22,4 +22,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InstaShare.Infrastructure\InstaShare.Infrastructure.csproj" />
+    <ProjectReference Include="..\InstaShare.WebApi\InstaShare.WebApi.csproj" />
+  </ItemGroup>
+
 </Project>
