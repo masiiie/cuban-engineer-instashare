@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaShare.FunctionalTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaShare.Infrastructure", "InstaShare.Infrastructure\InstaShare.Infrastructure.csproj", "{51B69B6B-AF3B-4E15-92B9-806CEB7C00E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstaShare.Application", "InstaShare.Application\InstaShare.Application.csproj", "{7D364D26-14B4-4315-8CC4-529A6512317F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{51B69B6B-AF3B-4E15-92B9-806CEB7C00E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51B69B6B-AF3B-4E15-92B9-806CEB7C00E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51B69B6B-AF3B-4E15-92B9-806CEB7C00E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D364D26-14B4-4315-8CC4-529A6512317F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D364D26-14B4-4315-8CC4-529A6512317F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D364D26-14B4-4315-8CC4-529A6512317F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D364D26-14B4-4315-8CC4-529A6512317F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
