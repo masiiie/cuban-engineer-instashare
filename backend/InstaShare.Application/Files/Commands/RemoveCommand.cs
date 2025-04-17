@@ -1,5 +1,6 @@
 using InstaShare.Domain.Entities.Files;
 using InstaShare.Domain.Repositories;
+using InstaShare.Application.CustomExceptions;
 using MediatR;
 
 namespace InstaShare.Application.Files.Commands;
@@ -17,7 +18,7 @@ public sealed class RemoveFileCommandHandler : IRequestHandler<RemoveFileCommand
 
     public async Task<InstaShareFile> Handle(RemoveFileCommand request, CancellationToken cancellationToken)
     {
-        var fileEntity = await _unitOfWork.FileRepository.GetByIdAsync(request.fileId, cancellationToken);
+        var fileEntity = await _unitOfWork.FileRepository.GetByIdAsync(request.fileId);
         if (fileEntity == null)
         {
             throw new NotFoundException($"File with ID {request.fileId} not found.");
