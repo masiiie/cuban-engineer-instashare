@@ -21,17 +21,17 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
 
-  username?: string;
+  email?: string;
   password?: string;
   rememberMe?: boolean;
 
   constructor(private authService: AuthService) {}
 
   onSubmit() {
-    if (!this.username || !this.password) {
+    if (!this.email || !this.password) {
       return;
     }
     // Call the login method from the AuthService
-    this.authService.login(this.username, this.password);
+    this.authService.login(this.email, this.password);
   }
 }

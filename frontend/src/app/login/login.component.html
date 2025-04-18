@@ -16,10 +16,10 @@
       <mat-card-title class="login-title">Sign in to InstaShare</mat-card-title>
       <mat-card-content>
         <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
-          <!-- Email/Username Field -->
+          <!-- Email Field -->
           <mat-form-field appearance="outline" class="form-field">
-            <mat-label>Email or Username</mat-label>
-            <input matInput required [(ngModel)]="username" name="username" />
+            <mat-label>Email</mat-label>
+            <input matInput required [(ngModel)]="email" name="email" />
           </mat-form-field>
 
           <!-- Password Field -->

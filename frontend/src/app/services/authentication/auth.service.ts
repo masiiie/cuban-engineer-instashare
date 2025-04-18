@@ -19,15 +19,20 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(username: string, password:string) {
+  login(email: string, password: string, twoFactorCode: string = '', twoFactorRecoveryCode: string = '') {
     return this.http.post<AuthResponse>(
       `${this.apiUrl}/login`,
-      {username, password})
-      .subscribe(response => {
-        localStorage.setItem('token', response.token);
-        this.loggedIn.next(true);
-        this.router.navigate(['/']);
-      });
+      {
+        email, // Map email to the backend field
+        password, // Map password to the backend field
+        twoFactorCode, // Optional field for two-factor authentication
+        twoFactorRecoveryCode // Optional field for recovery code
+      }
+    ).subscribe(response => {
+      localStorage.setItem('token', response.token);
+      this.loggedIn.next(true);
+      this.router.navigate(['/']);
+    });
   }
 
   logout() {
