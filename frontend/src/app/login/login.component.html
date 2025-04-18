@@ -1,16 +1,36 @@
-<mat-card style="padding: 2rem; max-width: 400px; margin: auto;">
-    <mat-card-title style="text-align: center; font-size: 1.5rem; margin-bottom: 1rem;">Login</mat-card-title>
-    <mat-card-content>
+<div class="login-container">
+  <!-- Left Section -->
+  <div class="login-left">
+    <div class="welcome-message">
+      <h1>Welcome to InstaShare</h1>
+      <p>Share your moments with the world.</p>
+    </div>
+    <div class="background-animation">
+      <!-- Add your animation here, e.g., SVG or CSS-based animation -->
+    </div>
+  </div>
+
+  <!-- Right Section -->
+  <div class="login-right">
+    <mat-card style="padding: 2rem; max-width: 400px; margin: auto;">
+      <mat-card-title style="text-align: center; font-size: 1.5rem; margin-bottom: 1rem;">Login</mat-card-title>
+      <mat-card-content>
         <form (ngSubmit)="onSubmit()" #loginForm="ngForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Username</mat-label>
-                <input matInput required [(ngModel)]="username" name="username">
-            </mat-form-field>
-            <mat-form-field appearance="outline" style="width: 100%;">
-                <mat-label>Password</mat-label>
-                <input matInput type="password" required [(ngModel)]="password" name="password">
-            </mat-form-field>
-            <button mat-raised-button color="primary" type="submit" style="width: 100%; padding: 0.75rem;">Login</button>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Username</mat-label>
+            <input matInput required [(ngModel)]="username" name="username">
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" required [(ngModel)]="password" name="password">
+          </mat-form-field>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+            <mat-checkbox [(ngModel)]="rememberMe" name="rememberMe">Remember me</mat-checkbox>
+            <a href="#" style="font-size: 0.875rem; text-decoration: none; color: #3f51b5;">Forgot password?</a>
+          </div>
+          <button mat-raised-button color="primary" type="submit" style="width: 100%; padding: 0.75rem;">Login</button>
         </form>
-    </mat-card-content>
-</mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

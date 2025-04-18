@@ -23,6 +23,7 @@ export class LoginComponent {
 
   username?: string;
   password?: string;
+  rememberMe?: boolean;
 
   constructor(private authService: AuthService) {}
 
