@@ -28,6 +28,10 @@ export class LoginComponent {
   constructor(private authService: AuthService) {}
 
   onSubmit() {
-    //this.authService.login(this.username, this.password);
+    if (!this.username || !this.password) {
+      return;
+    }
+    // Call the login method from the AuthService
+    this.authService.login(this.username, this.password);
   }
 }
