@@ -1,0 +1,50 @@
+<div class="login-container">
+  <!-- Left Section -->
+  <div class="login-left">
+    <div class="welcome-message">
+      <h1>Welcome to InstaShare</h1>
+      <p>Share your moments with the world.</p>
+    </div>
+    <div class="background-animation">
+      <!-- Add your animation here, e.g., SVG or CSS-based animation -->
+    </div>
+  </div>
+
+  <!-- Right Section -->
+  <div class="login-right">
+    <mat-card class="login-card">
+      <mat-card-title class="login-title">Sign in to InstaShare</mat-card-title>
+      <mat-card-content>
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+          <!-- Email Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Email</mat-label>
+            <input matInput required [(ngModel)]="email" name="email" />
+          </mat-form-field>
+
+          <!-- Password Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" required [(ngModel)]="password" name="password" />
+          </mat-form-field>
+
+          <!-- Remember Me and Forgot Password -->
+          <div class="form-options">
+            <mat-checkbox [(ngModel)]="rememberMe" name="rememberMe">Remember me</mat-checkbox>
+            <a href="#" class="forgot-password">Forgot password?</a>
+          </div>
+
+          <!-- Login Button -->
+          <button mat-raised-button color="primary" type="submit" class="login-button">Log In</button>
+
+
+        </form>
+      </mat-card-content>
+
+      <!-- Sign Up Link -->
+      <mat-card-actions class="signup-link">
+        <p>Not registered yet? <a href="#">Sign up here</a></p>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
