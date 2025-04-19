@@ -5,7 +5,7 @@ using InstaShare.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace InstaShare.Infrastucture.Persistence.Repositories;
+namespace InstaShare.Infrastructure.Persistence.Repositories;
 
 public class FileRepository : IFileRepository
 {

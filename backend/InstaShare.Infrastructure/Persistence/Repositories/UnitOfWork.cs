@@ -1,4 +1,7 @@
-namespace InstaShare>Infrastructure.Persistence.Repositories;
+using InstaShare.Domain.Repositories;
+using InstaShare.Domain.Entities.Files;
+
+namespace InstaShare.Infrastructure.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
