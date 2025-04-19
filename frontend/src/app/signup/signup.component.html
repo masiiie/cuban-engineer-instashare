@@ -1,0 +1,69 @@
+
+
+<div class="signup-container">
+  <!-- Left Section -->
+  <div class="signup-left">
+    <div class="welcome-message">
+      <h1>Join InstaShare Today</h1>
+      <p>Start sharing and storing your files securely.</p>
+    </div>
+    <div class="background-animation">
+      <img src="/images/cool-upload.png" alt="Sign up illustration" />
+    </div>
+  </div>
+
+  <!-- Right Section -->
+  <div class="signup-right">
+    <mat-card class="signup-card">
+      <mat-card-title class="signup-title">Create your account</mat-card-title>
+      <mat-card-content>
+        <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="signup-form">
+          <!-- Full Name Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Full Name</mat-label>
+            <input matInput required [(ngModel)]="fullName" name="fullName" />
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+
+          <!-- Email Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" required [(ngModel)]="email" name="email" />
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <!-- Password Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" required [(ngModel)]="password" name="password" />
+            <mat-icon matSuffix>lock</mat-icon>
+          </mat-form-field>
+
+          <!-- Confirm Password Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput type="password" required [(ngModel)]="confirmPassword" name="confirmPassword" />
+            <mat-icon matSuffix>lock_outline</mat-icon>
+          </mat-form-field>
+
+          <!-- Terms and Conditions -->
+          <div class="terms-section">
+            <mat-checkbox [(ngModel)]="agreeToTerms" name="agreeToTerms" required>
+              I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </mat-checkbox>
+          </div>
+
+          <!-- Sign Up Button -->
+          <button mat-raised-button color="primary" type="submit" class="signup-button">
+            Create Account
+          </button>
+        </form>
+      </mat-card-content>
+
+      <!-- Login Link -->
+      <mat-card-actions class="login-link">
+        <p>Already have an account? <a (click)="navigateToLogin()">Log in here</a></p>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
