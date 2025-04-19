@@ -1,5 +1,3 @@
-
-
 <div class="signup-container">
   <!-- Left Section -->
   <div class="signup-left">
@@ -21,41 +19,65 @@
           <!-- Full Name Field -->
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Full Name</mat-label>
-            <input matInput required [(ngModel)]="fullName" name="fullName" />
+            <input matInput required [(ngModel)]="fullName" name="fullName" #fullNameInput="ngModel" />
             <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="fullNameInput.invalid && fullNameInput.touched">
+              Full name is required
+            </mat-error>
           </mat-form-field>
 
           <!-- Email Field -->
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Email</mat-label>
-            <input matInput type="email" required [(ngModel)]="email" name="email" />
+            <input matInput type="email" required [(ngModel)]="email" name="email" 
+                   #emailInput="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
             <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="emailInput.invalid && emailInput.touched">
+              {{emailInput.hasError('required') ? 'Email is required' : 'Please enter a valid email'}}
+            </mat-error>
           </mat-form-field>
 
           <!-- Password Field -->
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Password</mat-label>
-            <input matInput type="password" required [(ngModel)]="password" name="password" />
-            <mat-icon matSuffix>lock</mat-icon>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" required 
+                   [(ngModel)]="password" name="password" #passwordInput="ngModel" minlength="8" />
+            <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+              {{hidePassword ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+            <mat-error *ngIf="passwordInput.invalid && passwordInput.touched">
+              Password must be at least 8 characters long
+            </mat-error>
           </mat-form-field>
 
           <!-- Confirm Password Field -->
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Confirm Password</mat-label>
-            <input matInput type="password" required [(ngModel)]="confirmPassword" name="confirmPassword" />
-            <mat-icon matSuffix>lock_outline</mat-icon>
+            <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" required 
+                   [(ngModel)]="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel" />
+            <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+              {{hideConfirmPassword ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+            <mat-error *ngIf="password !== confirmPassword && confirmPasswordInput.touched">
+              Passwords do not match
+            </mat-error>
           </mat-form-field>
 
           <!-- Terms and Conditions -->
           <div class="terms-section">
-            <mat-checkbox [(ngModel)]="agreeToTerms" name="agreeToTerms" required>
+            <mat-checkbox [(ngModel)]="agreeToTerms" name="agreeToTerms" required #termsInput="ngModel">
               I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
             </mat-checkbox>
+            <mat-error *ngIf="termsInput.invalid && termsInput.touched" class="terms-error">
+              You must agree to the Terms and Conditions
+            </mat-error>
           </div>
 
           <!-- Sign Up Button -->
-          <button mat-raised-button color="primary" type="submit" class="signup-button">
-            Create Account
+          <button mat-raised-button color="primary" type="submit" 
+                  class="signup-button" [disabled]="isLoading || !signupForm.form.valid">
+            <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+            <span *ngIf="!isLoading">Create Account</span>
           </button>
         </form>
       </mat-card-content>

@@ -47,7 +47,7 @@
   justify-content: center;
   align-items: center;
   background: #f5f5f5;
-  padding: 2rem;
+  padding: 4rem 2rem;
 }
 
 .signup-card {
@@ -91,6 +91,37 @@
   padding: 0.75rem;
   font-size: 1.1rem;
   margin-top: 1rem;
+  position: relative;
+  min-height: 36px;
+}
+
+.signup-button mat-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.terms-error {
+  font-size: 12px;
+  margin-top: 4px;
+  color: #f44336;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field {
+  margin-bottom: 16px;
+}
+
+.mat-icon {
+  cursor: pointer;
+}
+
+mat-error {
+  font-size: 12px;
 }
 
 .login-link {

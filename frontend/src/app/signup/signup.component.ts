@@ -8,6 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../services/authentication/auth.service';
 import { NavigationComponent } from '../shared/navigation/navigation.component';
 
@@ -23,6 +26,8 @@ import { NavigationComponent } from '../shared/navigation/navigation.component';
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
     NavigationComponent
   ],
   templateUrl: './signup.component.html',
@@ -34,45 +39,65 @@ export class SignupComponent {
   password: string = '';
   confirmPassword: string = '';
   agreeToTerms: boolean = false;
+  isLoading: boolean = false;
+  hidePassword: boolean = true;
+  hideConfirmPassword: boolean = true;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router, 
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) {}
 
   onSubmit() {
     if (!this.validateForm()) {
       return;
     }
 
+    this.isLoading = true;
     this.authService.signup({
       fullName: this.fullName,
       email: this.email,
       password: this.password
     }).subscribe({
-      next: (response) => {
-        if (response.success) {
-          // Automatically log in the user after successful signup
-          this.authService.login(this.email, this.password);
-        }
+      next: () => {
+        this.isLoading = false;
+        this.snackBar.open('Account created successfully!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
       },
       error: (error) => {
-        console.error('Signup failed:', error);
-        // TODO: Show error message to user
+        this.isLoading = false;
+        this.snackBar.open(error.message || 'Failed to create account', 'Close', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
       }
     });
   }
 
   private validateForm(): boolean {
     if (!this.fullName || !this.email || !this.password || !this.confirmPassword) {
-      // TODO: Show error message for required fields
+      this.snackBar.open('Please fill in all required fields', 'Close', {
+        duration: 3000
+      });
       return false;
     }
 
     if (this.password !== this.confirmPassword) {
-      // TODO: Show password mismatch error
+      this.snackBar.open('Passwords do not match', 'Close', {
+        duration: 3000
+      });
       return false;
     }
 
     if (!this.agreeToTerms) {
-      // TODO: Show terms agreement error
+      this.snackBar.open('Please agree to Terms and Conditions', 'Close', {
+        duration: 3000
+      });
       return false;
     }
 
