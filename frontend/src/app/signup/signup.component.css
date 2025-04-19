@@ -142,6 +142,17 @@ mat-error {
   text-decoration: underline;
 }
 
+.server-error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  text-align: left;
+  white-space: pre-line;
+  line-height: 1.5;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .signup-container {

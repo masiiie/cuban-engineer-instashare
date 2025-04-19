@@ -42,6 +42,7 @@ export class SignupComponent {
   isLoading: boolean = false;
   hidePassword: boolean = true;
   hideConfirmPassword: boolean = true;
+  serverError: string = '';
 
   constructor(
     private router: Router, 
@@ -55,26 +56,28 @@ export class SignupComponent {
     }
 
     this.isLoading = true;
+    this.serverError = '';
+    
     this.authService.signup({
       fullName: this.fullName,
       email: this.email,
       password: this.password
     }).subscribe({
-      next: () => {
+      next: (response) => {
         this.isLoading = false;
-        this.snackBar.open('Account created successfully!', 'Close', {
-          duration: 3000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        });
+        if (response.error) {
+          this.serverError = response.error;
+        } else {
+          this.snackBar.open('Account created successfully!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+          });
+        }
       },
-      error: (error) => {
+      error: () => {
         this.isLoading = false;
-        this.snackBar.open(error.message || 'Failed to create account', 'Close', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-        });
+        this.serverError = 'An unexpected error occurred. Please try again.';
       }
     });
   }

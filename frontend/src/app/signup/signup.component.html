@@ -15,6 +15,11 @@
     <mat-card class="signup-card">
       <mat-card-title class="signup-title">Create your account</mat-card-title>
       <mat-card-content>
+        <!-- Server Error Message -->
+        <div *ngIf="serverError" class="server-error-message">
+          {{ serverError }}
+        </div>
+        
         <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="signup-form">
           <!-- Full Name Field -->
           <mat-form-field appearance="outline" class="form-field">
