@@ -1,3 +1,5 @@
+using InstaShare.WebApi.Endpoints;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var frontendUrl = builder.Configuration["FrontendUrl"];
