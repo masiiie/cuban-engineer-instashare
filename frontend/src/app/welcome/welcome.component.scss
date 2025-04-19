@@ -26,9 +26,38 @@
   margin-bottom: 2rem;
 }
 
-.background-animation img {
-  max-width: 80%;
-  height: auto;
+.background-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  
+  img {
+    max-width: 80%;
+    height: auto;
+    //mix-blend-mode: soft-light; // This will help blend with the gradient background
+    filter: contrast(1.2) brightness(1.1); // Enhance visibility while maintaining transparency
+    transition: all 0.3s ease;
+    animation: float 6s ease-in-out infinite;
+    
+    &:hover {
+      transform: scale(1.02);
+      filter: contrast(1.3) brightness(1.2);
+    }
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .welcome-right {
