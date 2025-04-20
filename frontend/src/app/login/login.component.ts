@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,18 +21,29 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-
   email?: string;
   password?: string;
   rememberMe?: boolean;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   onSubmit() {
     if (!this.email || !this.password) {
       return;
     }
-    // Call the login method from the AuthService
-    this.authService.login(this.email, this.password);
+    
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response) => {
+        localStorage.setItem('token', response.token);
+        this.authService.updateLoggedInState(true); // Update the logged in state
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Login failed:', error);
+      }
+    });
   }
 }
