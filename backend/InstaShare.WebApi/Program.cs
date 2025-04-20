@@ -1,6 +1,14 @@
+using Microsoft.AspNetCore.Identity;
+using InstaShare.Infrastructure;
+using InstaShare.Infrastructure.Persistence;
 using InstaShare.WebApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var frontendUrl = builder.Configuration["FrontendUrl"];
 builder.Services.AddCors(options => {
@@ -17,6 +25,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.MapIdentityApi<IdentityUser>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
