@@ -73,11 +73,13 @@ export class SignupComponent {
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
           });
+          this.router.navigate(['/']);
         }
       },
-      error: () => {
+      error: (error) => {
         this.isLoading = false;
         this.serverError = 'An unexpected error occurred. Please try again.';
+        console.error('Signup error:', error);
       }
     });
   }
