@@ -1,16 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, Observable, of, tap, map, catchError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, switchMap, catchError } from 'rxjs';
 
 interface AuthResponse {
   token: string;
 }
 
 interface SignupResponse {
-  token?: string;
+  success?: boolean;
   error?: string;
 }
 
@@ -32,38 +31,24 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(email: string, password: string, twoFactorCode: string = '', twoFactorRecoveryCode: string = '') {
-    return this.http.post<AuthResponse>(
-      `${this.apiUrl}/login`,
-      {
-        email, // Map email to the backend field
-        password, // Map password to the backend field
-        twoFactorCode, // Optional field for two-factor authentication
-        twoFactorRecoveryCode // Optional field for recovery code
-      }
-    ).subscribe(response => {
-      localStorage.setItem('token', response.token);
-      this.loggedIn.next(true);
-      this.router.navigate(['/']);
-    });
+  updateLoggedInState(state: boolean) {
+    this.loggedIn.next(state);
   }
 
   signup(userData: { fullName: string, email: string, password: string }): Observable<SignupResponse> {
-    return this.http.post<SignupResponse>(
-      `${this.apiUrl}/register`,
-      {
-        email: userData.email,
-        password: userData.password,
-        fullName: userData.fullName
-      }
-    ).pipe(
-      map(response => {
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          this.loggedIn.next(true);
-          this.router.navigate(['/']);
-        }
-        return response;
+    return this.http.post(`${this.apiUrl}/register`, userData).pipe(
+      switchMap(() => {
+        // If registration is successful (200 status), proceed with login
+        return this.http.post<AuthResponse>(`${this.apiUrl}/login`, {
+          email: userData.email,
+          password: userData.password
+        }).pipe(
+          switchMap(response => {
+            localStorage.setItem('token', response.token);
+            this.loggedIn.next(true);
+            return of({ success: true });
+          })
+        );
       }),
       catchError((error: HttpErrorResponse) => {
         if (error.status === 400) {
@@ -71,10 +56,9 @@ export class AuthService {
           let errorMessage = 'Validation error';
           
           if (validationError.errors) {
-            // Collect all error messages from all error fields
             const errorMessages = Object.entries(validationError.errors)
-              .map(([_, messages]) => messages[0]) // Take first message from each error type
-              .filter(message => message); // Remove any undefined/empty messages
+              .map(([_, messages]) => messages[0])
+              .filter(message => message);
             
             if (errorMessages.length > 0) {
               errorMessage = errorMessages.join('\n');
@@ -84,6 +68,18 @@ export class AuthService {
         }
         return of({ error: 'An unexpected error occurred. Please try again.' });
       })
+    );
+  }
+
+  login(email: string, password: string, twoFactorCode: string = '', twoFactorRecoveryCode: string = ''): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}/login`,
+      {
+        email,
+        password,
+        twoFactorCode,
+        twoFactorRecoveryCode
+      }
     );
   }
 
