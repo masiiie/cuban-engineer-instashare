@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using InstaShare.Infrastructure.Persistence;
+using InstaShare.Domain.Repositories;
+using InstaShare.Infrastructure.Persistence.Repositories;
 
 namespace InstaShare.Infrastructure;
 
@@ -24,6 +26,8 @@ public static class ConfigureService
             }
         );
     
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         return services;
     }
 }

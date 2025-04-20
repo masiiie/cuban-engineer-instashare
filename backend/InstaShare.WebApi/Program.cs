@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Identity;
 using InstaShare.Infrastructure;
 using InstaShare.Infrastructure.Persistence;
 using InstaShare.WebApi.Endpoints;
+using InstaShare.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
