@@ -4,8 +4,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavigationComponent } from '../shared/navigation/navigation.component';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +18,10 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    FormsModule
+    MatIconModule,
+    MatCheckboxModule,
+    FormsModule,
+    NavigationComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -23,7 +29,8 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   email?: string;
   password?: string;
-  rememberMe?: boolean;
+  rememberMe: boolean = false;
+  hidePassword: boolean = true;
 
   constructor(
     private authService: AuthService,
@@ -37,13 +44,19 @@ export class LoginComponent {
     
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        localStorage.setItem('token', response.token);
-        this.authService.updateLoggedInState(true); // Update the logged in state
+        if (this.rememberMe) {
+          localStorage.setItem('token', response.token);
+        }
+        this.authService.updateLoggedInState(true);
         this.router.navigate(['/']);
       },
       error: (error) => {
         console.error('Login failed:', error);
       }
     });
+  }
+
+  navigateToSignup() {
+    this.router.navigate(['/signup']);
   }
 }

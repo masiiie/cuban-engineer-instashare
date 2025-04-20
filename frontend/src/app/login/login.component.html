@@ -2,48 +2,58 @@
   <!-- Left Section -->
   <div class="login-left">
     <div class="welcome-message">
-      <h1>Welcome to InstaShare</h1>
-      <p>Share your moments with the world.</p>
+      <h1>Welcome Back!</h1>
+      <p>Access your files and start sharing instantly.</p>
     </div>
     <div class="background-animation">
-      <!-- Add your animation here, e.g., SVG or CSS-based animation -->
+      <img src="/images/cool-upload.png" alt="Login illustration" />
     </div>
   </div>
 
   <!-- Right Section -->
   <div class="login-right">
     <mat-card class="login-card">
-      <mat-card-title class="login-title">Sign in to InstaShare</mat-card-title>
+      <mat-card-title class="login-title">Login to your account</mat-card-title>
       <mat-card-content>
         <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
           <!-- Email Field -->
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Email</mat-label>
-            <input matInput required [(ngModel)]="email" name="email" />
+            <input matInput type="email" required [(ngModel)]="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" #emailInput="ngModel" />
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="emailInput.invalid && emailInput.touched">
+              {{emailInput.hasError('required') ? 'Email is required' : 'Please enter a valid email'}}
+            </mat-error>
           </mat-form-field>
 
           <!-- Password Field -->
           <mat-form-field appearance="outline" class="form-field">
             <mat-label>Password</mat-label>
-            <input matInput type="password" required [(ngModel)]="password" name="password" />
+            <input matInput [type]="hidePassword ? 'password' : 'text'" required [(ngModel)]="password" name="password" #passwordInput="ngModel" />
+            <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+              {{hidePassword ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+            <mat-error *ngIf="passwordInput.invalid && passwordInput.touched">
+              Password is required
+            </mat-error>
           </mat-form-field>
 
           <!-- Remember Me and Forgot Password -->
           <div class="form-options">
             <mat-checkbox [(ngModel)]="rememberMe" name="rememberMe">Remember me</mat-checkbox>
-            <a href="#" class="forgot-password">Forgot password?</a>
+            <a routerLink="/forgot-password" class="forgot-password">Forgot password?</a>
           </div>
 
           <!-- Login Button -->
-          <button mat-raised-button color="primary" type="submit" class="login-button">Log In</button>
-
-
+          <button mat-raised-button color="primary" type="submit" class="login-button" [disabled]="!loginForm.form.valid">
+            Log In
+          </button>
         </form>
       </mat-card-content>
 
       <!-- Sign Up Link -->
       <mat-card-actions class="signup-link">
-        <p>Not registered yet? <a href="#">Sign up here</a></p>
+        <p>Not registered yet? <a (click)="navigateToSignup()">Sign up here</a></p>
       </mat-card-actions>
     </mat-card>
   </div>
