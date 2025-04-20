@@ -31,6 +31,6 @@ app.UseAuthentication();
 app.UseAuthorization();  
 app.UseCors("AllowFrontend");
 
-app.RegisterEndpointsInstaShareFiles();
+app.RegisterEndpointsFiles();
 
 app.Run();

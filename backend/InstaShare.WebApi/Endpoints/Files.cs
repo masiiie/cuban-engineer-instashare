@@ -1,6 +1,7 @@
 using MediatR;
 using InstaShare.Application.Files.Commands;
 using InstaShare.Application.Files.Queries;
+using InstaShare.WebApi.Dtos;
 
 namespace InstaShare.WebApi.Endpoints;
 
@@ -24,8 +25,8 @@ public static class EndpointsInstaShareFilesExtension
         {
             var command = new CreateFileCommand(
                 createFileDto.name,
-                createFileDto.size,
-                createFileDto.type);
+                createFileDto.status,
+                createFileDto.size);
             var file = await mediator.Send(command);
             return Results.Ok(new GetFileDto(file));
         }).DisableAntiforgery()
@@ -37,8 +38,9 @@ public static class EndpointsInstaShareFilesExtension
             var command = new UpdateFileCommand(
                 id,
                 updateFileDto.name,
+                updateFileDto.status,
                 updateFileDto.size,
-                updateFileDto.type);
+                updateFileDto.blobUrl);
             var file = await mediator.Send(command);
             return Results.Ok(new GetFileDto(file));
         }).DisableAntiforgery()
