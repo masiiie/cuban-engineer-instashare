@@ -20,6 +20,12 @@ public class FileRepository : IFileRepository
         _dbContext.Files.Add(file);
     }
 
+    public async Task<InstaShareFile> CreateAsync(InstaShareFile file)
+    {
+        await _dbContext.Files.AddAsync(file);
+        return file;
+    }
+
     public void Update(InstaShareFile file)
     {
         _dbContext.Files.Update(file);

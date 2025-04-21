@@ -49,6 +49,7 @@ namespace InstaShare.Domain.Entities.Files
     {
         OnlyInDbNoContent,
         Uploading,
+        Uploaded,
         Zipping,
         Zipped
     }

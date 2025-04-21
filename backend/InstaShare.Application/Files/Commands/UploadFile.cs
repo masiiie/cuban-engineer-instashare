@@ -32,7 +32,7 @@ public class UploadFileCommandHandler : IRequestHandler<UploadFileCommand, Insta
         );
 
         // Save to database
-        await _unitOfWork.FileRepository.AddAsync(file);
+        await _unitOfWork.FileRepository.CreateAsync(file);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return file;
