@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InstaShare.Domain\InstaShare.Domain.csproj" />
+    <ProjectReference Include="..\InstaShare.Application\InstaShare.Application.csproj" />
   </ItemGroup>
 
 </Project>

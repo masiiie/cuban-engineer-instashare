@@ -6,6 +6,7 @@ using InstaShare.Infrastructure.Persistence;
 using InstaShare.Domain.Repositories;
 using InstaShare.Infrastructure.Persistence.Repositories;
 using InstaShare.Infrastructure.Services;
+using InstaShare.Application.Services;
 
 namespace InstaShare.Infrastructure;
 
@@ -28,7 +29,20 @@ public static class ConfigureService
         );
     
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        services.AddScoped<IBlobStorageService, BlobStorageService>();
+
+        // Register blob storage service based on configuration
+        var useDevStorageStr = configuration["StorageConfig:UseDevStorage"];
+        bool useDevStorage = false;
+        bool.TryParse(useDevStorageStr, out useDevStorage);
+        
+        if (useDevStorage)
+        {
+            services.AddScoped<IBlobStorageService, DevelopmentBlobStorageService>();
+        }
+        else
+        {
+            services.AddScoped<IBlobStorageService, BlobStorageService>();
+        }
 
         return services;
     }

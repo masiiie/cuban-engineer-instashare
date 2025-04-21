@@ -11,14 +11,22 @@ public class BlobStorageService : IBlobStorageService
     public BlobStorageService(IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("AzureStorage");
-        var containerName = configuration["BlobContainerName"];
+        var containerName = configuration["BlobContainerName"] ?? "instashare-files";
+        
+        // Create BlobServiceClient
         var blobServiceClient = new BlobServiceClient(connectionString);
+        
+        // Get container client and create container if it doesn't exist
         _containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+        _containerClient.CreateIfNotExists();
     }
 
     public async Task<string> UploadFileAsync(Stream fileStream, string fileName)
     {
-        var blobClient = _containerClient.GetBlobClient(fileName);
+        // Generate a unique name to avoid conflicts
+        var uniqueFileName = $"{DateTime.UtcNow:yyyyMMddHHmmss}_{fileName}";
+        var blobClient = _containerClient.GetBlobClient(uniqueFileName);
+        
         await blobClient.UploadAsync(fileStream, true);
         return blobClient.Uri.ToString();
     }
