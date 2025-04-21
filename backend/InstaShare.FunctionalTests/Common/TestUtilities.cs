@@ -18,7 +18,7 @@ public static class TestUtilities
         if (file == null)
         {
             // If no files exist in the database, create one
-            var newFile = new InstaShareFile("Test File", 1024, "text/plain");
+            var newFile = new InstaShareFile("Test File", FileStatus.OnlyInDbNoContent, 1024);
             dbContext.Files.Add(newFile);
             using var cancellationTokenSource = new CancellationTokenSource();
             CancellationToken cancellationToken = cancellationTokenSource.Token;
