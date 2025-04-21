@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface InstaShareFile {
@@ -18,6 +18,7 @@ export interface InstaShareFile {
 })
 export class FileService {
   private instaShareApiUrl = `${environment.instaShareApiUrl}/files`;
+  private refreshFiles$ = new Subject<void>();
 
   constructor(private http: HttpClient) { }
 
@@ -37,5 +38,14 @@ export class FileService {
 
   downloadFile(id: number): Observable<Blob> {
     return this.http.get(`${this.instaShareApiUrl}/${id}/download`, { responseType: 'blob' });
+  }
+
+  // New methods for file list refresh
+  refreshFileList() {
+    this.refreshFiles$.next();
+  }
+
+  get refreshFiles(): Observable<void> {
+    return this.refreshFiles$.asObservable();
   }
 }

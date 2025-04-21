@@ -140,6 +140,7 @@ export class NavigationComponent {
     this.fileService.uploadFile(file).subscribe({
       next: () => {
         this.snackBar.open('File uploaded successfully', 'Close', { duration: 3000 });
+        this.fileService.refreshFileList(); // Trigger refresh
         this.router.navigate(['/files']); // Navigate to files page after successful upload
       },
       error: (error) => {

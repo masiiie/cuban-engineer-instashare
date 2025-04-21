@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileService, InstaShareFile } from '../services/file.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,9 +24,10 @@ import { NavigationComponent } from '../shared/navigation/navigation.component';
     NavigationComponent
   ]
 })
-export class FileManagementComponent implements OnInit {
+export class FileManagementComponent implements OnInit, OnDestroy {
   files$: Observable<InstaShareFile[]>;
   displayedColumns: string[] = ['name', 'status', 'size', 'created', 'actions'];
+  private refreshSubscription: Subscription = new Subscription();
   
   constructor(
     private fileService: FileService,
@@ -37,6 +38,15 @@ export class FileManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshFiles();
+    this.refreshSubscription = this.fileService.refreshFiles.subscribe(() => {
+      this.refreshFiles();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe();
+    }
   }
 
   refreshFiles(): void {
