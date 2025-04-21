@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/authentication/auth.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,11 +10,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NavigationComponent } from '../shared/navigation/navigation.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -34,7 +37,8 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cookieService: CookieService
   ) {}
 
   onSubmit() {
@@ -44,9 +48,11 @@ export class LoginComponent {
     
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        if (this.rememberMe) {
-          localStorage.setItem('token', response.token);
-        }
+        const cookieOptions = this.rememberMe ? 
+          { path: '/', expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } : // 30 days
+          { path: '/' }; // Session cookie
+        
+        this.cookieService.set('auth_token', response.token, cookieOptions);
         this.authService.updateLoggedInState(true);
         this.router.navigate(['/']);
       },

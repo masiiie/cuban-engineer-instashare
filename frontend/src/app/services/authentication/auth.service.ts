@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable, of, switchMap, catchError } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 interface AuthResponse {
   token: string;
@@ -28,8 +29,19 @@ interface ValidationErrorResponse {
 export class AuthService {
   private apiUrl = environment.instaShareApiUrl;
   private loggedIn = new BehaviorSubject<boolean>(false);
+  private readonly TOKEN_NAME = 'auth_token';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    private cookieService: CookieService
+  ) {
+    // Check if token exists in cookies
+    const token = this.cookieService.get(this.TOKEN_NAME);
+    if (token) {
+      this.loggedIn.next(true);
+    }
+  }
 
   updateLoggedInState(state: boolean) {
     this.loggedIn.next(state);
@@ -44,7 +56,7 @@ export class AuthService {
           password: userData.password
         }).pipe(
           switchMap(response => {
-            localStorage.setItem('token', response.token);
+            this.cookieService.set(this.TOKEN_NAME, response.token, { path: '/' });
             this.loggedIn.next(true);
             return of({ success: true });
           })
@@ -84,7 +96,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    this.cookieService.delete(this.TOKEN_NAME, '/');
     this.loggedIn.next(false);
     this.router.navigate(['/login']);
   }
