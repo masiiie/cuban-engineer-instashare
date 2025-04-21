@@ -1,16 +1,7 @@
+<app-navigation></app-navigation>
+
 <div class="file-management-container">
-  <div class="upload-section">
-    <input
-      type="file"
-      #fileInput
-      style="display: none"
-      (change)="onFileSelected($event)"
-    />
-    <button mat-raised-button color="primary" (click)="fileInput.click()">
-      <mat-icon>upload</mat-icon>
-      Upload File
-    </button>
-  </div>
+
 
   <mat-table [dataSource]="files$" class="mat-elevation-z8">
     <ng-container matColumnDef="name">

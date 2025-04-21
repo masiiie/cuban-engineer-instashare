@@ -38,7 +38,7 @@ import { AuthService } from '../../services/authentication/auth.service';
           <mat-icon>upload_file</mat-icon>
           Upload Files
         </button>
-        <button mat-button>
+        <button mat-button (click)="navigateToMyFiles()">
           <mat-icon>folder</mat-icon>
           My Files
         </button>
@@ -108,5 +108,9 @@ export class NavigationComponent {
 
   navigateToSignup() {
     this.router.navigate(['/signup']);
+  }
+
+  navigateToMyFiles() {
+    this.router.navigate(['/files']);
   }
 }
