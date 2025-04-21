@@ -10,6 +10,7 @@ namespace InstaShare.Domain.Entities.Files
         public long Size {get;private set;}
         public string BlobUrl {get;private set;}
 
+        protected InstaShareFile() {} 
         public InstaShareFile(string name, FileStatus status, long size, string bloburl = null)
         {
             // blob url is set after uploading
