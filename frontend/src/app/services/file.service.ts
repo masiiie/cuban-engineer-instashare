@@ -17,7 +17,7 @@ export interface InstaShareFile {
   providedIn: 'root'
 })
 export class FileService {
-  private instaShareApiUrl = `${environment.instaShareApiUrl}/api/files`;
+  private instaShareApiUrl = `${environment.instaShareApiUrl}/files`;
 
   constructor(private http: HttpClient) { }
 
