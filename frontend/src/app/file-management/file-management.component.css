@@ -1,0 +1,41 @@
+.file-management-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.upload-section {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mat-mdc-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.mat-mdc-cell, .mat-mdc-header-cell {
+  padding: 8px 16px;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+.mat-column-size {
+  width: 100px;
+}
+
+.mat-column-status {
+  width: 150px;
+}
+
+.mat-column-created {
+  width: 200px;
+}
+
+mat-progress-bar {
+  margin-top: 8px;
+}
