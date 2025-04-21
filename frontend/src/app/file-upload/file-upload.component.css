@@ -1,0 +1,13 @@
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.upload-progress {
+  width: 100%;
+  max-width: 200px;
+  margin-top: 0.5rem;
+}

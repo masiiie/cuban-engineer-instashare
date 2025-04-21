@@ -1,0 +1,23 @@
+<div class="file-upload-container">
+  <input
+    type="file"
+    #fileInput
+    (change)="onFileSelected($event)"
+    style="display: none"
+  />
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="fileInput.click()"
+    [disabled]="isUploading"
+  >
+    <mat-icon>cloud_upload</mat-icon>
+    Upload File
+  </button>
+  
+  <mat-progress-bar
+    *ngIf="isUploading"
+    mode="indeterminate"
+    class="upload-progress"
+  ></mat-progress-bar>
+</div>

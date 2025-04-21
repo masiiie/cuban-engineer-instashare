@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/authentication/auth.service';
+import { FileService } from '../../services/file.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-navigation',
@@ -34,7 +36,13 @@ import { AuthService } from '../../services/authentication/auth.service';
       </ng-container>
       
       <ng-template #loggedIn>
-        <button mat-button>
+        <input
+          type="file"
+          #fileInput
+          style="display: none"
+          (change)="onFileSelected($event)"
+        />
+        <button mat-button (click)="fileInput.click()">
           <mat-icon>upload_file</mat-icon>
           Upload Files
         </button>
@@ -93,9 +101,13 @@ import { AuthService } from '../../services/authentication/auth.service';
   `]
 })
 export class NavigationComponent {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
   constructor(
     private router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    private fileService: FileService,
+    private snackBar: MatSnackBar
   ) {}
 
   navigateHome() {
@@ -112,5 +124,28 @@ export class NavigationComponent {
 
   navigateToMyFiles() {
     this.router.navigate(['/files']);
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      const file = input.files[0];
+      this.uploadFile(file);
+      // Clear the input so the same file can be uploaded again if needed
+      input.value = '';
+    }
+  }
+
+  private uploadFile(file: File): void {
+    this.fileService.uploadFile(file).subscribe({
+      next: () => {
+        this.snackBar.open('File uploaded successfully', 'Close', { duration: 3000 });
+        this.router.navigate(['/files']); // Navigate to files page after successful upload
+      },
+      error: (error) => {
+        this.snackBar.open('Error uploading file', 'Close', { duration: 3000 });
+        console.error('Upload error:', error);
+      }
+    });
   }
 }
