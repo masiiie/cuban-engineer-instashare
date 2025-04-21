@@ -43,23 +43,6 @@ export class FileManagementComponent implements OnInit {
     this.files$ = this.fileService.getFiles();
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      const file = input.files[0];
-      this.fileService.uploadFile(file).subscribe({
-        next: () => {
-          this.refreshFiles();
-          this.snackBar.open('File uploaded successfully', 'Close', { duration: 3000 });
-        },
-        error: (error) => {
-          this.snackBar.open('Error uploading file', 'Close', { duration: 3000 });
-          console.error('Upload error:', error);
-        }
-      });
-    }
-  }
-
   downloadFile(file: InstaShareFile): void {
     this.fileService.downloadFile(file.id).subscribe({
       next: (blob) => {
