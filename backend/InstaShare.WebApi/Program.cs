@@ -3,6 +3,7 @@ using InstaShare.Infrastructure;
 using InstaShare.Infrastructure.Persistence;
 using InstaShare.WebApi.Endpoints;
 using InstaShare.Application;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,17 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Configure file upload limits
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.MaxRequestBodySize = 100_000_000; // 100MB
+});
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 100_000_000; // 100MB
+});
 
 var frontendUrl = builder.Configuration["FrontendUrl"];
 builder.Services.AddCors(options => {
@@ -21,6 +33,7 @@ builder.Services.AddCors(options => {
                 .AllowAnyMethod();
         });
 });
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

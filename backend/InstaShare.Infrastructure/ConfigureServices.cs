@@ -5,6 +5,7 @@ using Npgsql;
 using InstaShare.Infrastructure.Persistence;
 using InstaShare.Domain.Repositories;
 using InstaShare.Infrastructure.Persistence.Repositories;
+using InstaShare.Infrastructure.Services;
 
 namespace InstaShare.Infrastructure;
 
@@ -27,6 +28,7 @@ public static class ConfigureService
         );
     
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IBlobStorageService, BlobStorageService>();
 
         return services;
     }

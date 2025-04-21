@@ -52,5 +52,22 @@ public static class EndpointsInstaShareFilesExtension
             await mediator.Send(new RemoveFileCommand(id));
             return Results.NoContent();
         });
+
+        app.MapPost("/files/upload", async (IFormFile file, IMediator mediator) =>
+        {
+            using var stream = file.OpenReadStream();
+            var command = new UploadFileCommand(
+                stream,
+                file.FileName,
+                file.ContentType,
+                file.Length
+            );
+            
+            var uploadedFile = await mediator.Send(command);
+            return Results.Ok(new GetFileDto(uploadedFile));
+        })
+        .DisableAntiforgery()
+        .Accepts<IFormFile>("multipart/form-data")
+        .Produces<GetFileDto>();
     }
 }
