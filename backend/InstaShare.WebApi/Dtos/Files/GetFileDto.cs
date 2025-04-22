@@ -19,5 +19,7 @@ public record GetFileDto
         Status = file.Status;
         Size = file.Size;
         BlobUrl = file.BlobUrl;
+        Created = file.Created;
+        LastModified = file.LastModified;
     }
 }
