@@ -1,0 +1,46 @@
+<app-navigation></app-navigation>
+
+<div class="file-management-container">
+  <mat-table [dataSource]="files$" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let file">{{file.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let file">
+        {{file.status}}
+        <mat-progress-bar
+          *ngIf="file.status === 'Uploading'"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="size">
+      <mat-header-cell *matHeaderCellDef>Size</mat-header-cell>
+      <mat-cell *matCellDef="let file">{{formatFileSize(file.size)}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <mat-header-cell *matHeaderCellDef>Upload Date</mat-header-cell>
+      <mat-cell *matCellDef="let file">{{file.created | date:'medium'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let file">
+        <button mat-icon-button color="primary" (click)="downloadFile(file)" [disabled]="file.status !== 'Zipped'">
+          <mat-icon>download</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteFile(file)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

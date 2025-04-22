@@ -1,0 +1,96 @@
+<div class="signup-container">
+  <!-- Left Section -->
+  <div class="signup-left">
+    <div class="welcome-message">
+      <h1>Join InstaShare Today</h1>
+      <p>Start sharing and storing your files securely.</p>
+    </div>
+    <div class="background-animation">
+      <img src="/images/cool-upload.png" alt="Sign up illustration" />
+    </div>
+  </div>
+
+  <!-- Right Section -->
+  <div class="signup-right">
+    <mat-card class="signup-card">
+      <mat-card-title class="signup-title">Create your account</mat-card-title>
+      <mat-card-content>
+        <!-- Server Error Message -->
+        <div *ngIf="serverError" class="server-error-message">
+          {{ serverError }}
+        </div>
+        
+        <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="signup-form">
+          <!-- Full Name Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Full Name</mat-label>
+            <input matInput required [(ngModel)]="fullName" name="fullName" #fullNameInput="ngModel" />
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="fullNameInput.invalid && fullNameInput.touched">
+              Full name is required
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Email Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" required [(ngModel)]="email" name="email" 
+                   #emailInput="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="emailInput.invalid && emailInput.touched">
+              {{emailInput.hasError('required') ? 'Email is required' : 'Please enter a valid email'}}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Password Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" required 
+                   [(ngModel)]="password" name="password" #passwordInput="ngModel" minlength="8" />
+            <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+              {{hidePassword ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+            <mat-error *ngIf="passwordInput.invalid && passwordInput.touched">
+              Password must be at least 8 characters long
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Confirm Password Field -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" required 
+                   [(ngModel)]="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel" />
+            <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+              {{hideConfirmPassword ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+            <mat-error *ngIf="password !== confirmPassword && confirmPasswordInput.touched">
+              Passwords do not match
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Terms and Conditions -->
+          <div class="terms-section">
+            <mat-checkbox [(ngModel)]="agreeToTerms" name="agreeToTerms" required #termsInput="ngModel">
+              I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </mat-checkbox>
+            <mat-error *ngIf="termsInput.invalid && termsInput.touched" class="terms-error">
+              You must agree to the Terms and Conditions
+            </mat-error>
+          </div>
+
+          <!-- Sign Up Button -->
+          <button mat-raised-button color="primary" type="submit" 
+                  class="signup-button" [disabled]="isLoading || !signupForm.form.valid">
+            <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+            <span *ngIf="!isLoading">Create Account</span>
+          </button>
+        </form>
+      </mat-card-content>
+
+      <!-- Login Link -->
+      <mat-card-actions class="login-link">
+        <p>Already have an account? <a (click)="navigateToLogin()">Log in here</a></p>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

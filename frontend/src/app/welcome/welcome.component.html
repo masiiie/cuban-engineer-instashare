@@ -1,0 +1,56 @@
+<app-navigation></app-navigation>
+
+<div class="welcome-container">
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>Welcome to InstaShare</h1>
+      <p class="hero-description">Securely upload, manage, and share your files</p>
+      <div class="hero-actions">
+        <button mat-raised-button color="primary" (click)="navigateToSignup()">
+          <mat-icon>person_add</mat-icon>
+          Get Started - It's Free
+        </button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="/images/cool-upload.png" alt="File Upload Illustration" />
+    </div>
+  </div>
+
+  <div class="features-section">
+    <h2>Why Choose InstaShare?</h2>
+    <div class="features-grid">
+      <mat-card class="feature-card">
+        <mat-icon color="primary">security</mat-icon>
+        <h3>Secure File Uploads</h3>
+        <p>End-to-end encryption for your files</p>
+      </mat-card>
+
+      <mat-card class="feature-card">
+        <mat-icon color="primary">speed</mat-icon>
+        <h3>Lightning Fast</h3>
+        <p>Optimized for quick uploads and downloads</p>
+      </mat-card>
+
+      <mat-card class="feature-card">
+        <mat-icon color="primary">cloud_done</mat-icon>
+        <h3>Cloud Storage</h3>
+        <p>Access your files from anywhere</p>
+      </mat-card>
+
+      <mat-card class="feature-card">
+        <mat-icon color="primary">share</mat-icon>
+        <h3>Easy Sharing</h3>
+        <p>Share files with anyone, anywhere</p>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="cta-content">
+      <h2>Ready to Start?</h2>
+      <p>Join millions of users who trust InstaShare for their file sharing needs</p>
+      <button mat-raised-button color="accent" (click)="navigateToSignup()">Sign Up Now</button>
+    </div>
+  </div>
+</div>

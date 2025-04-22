@@ -1,0 +1,85 @@
+.file-management-container {
+  min-height: 100vh;
+  padding: 4rem 8rem;
+  background: #f5f5f5;
+
+  @media (max-width: 1024px) {
+    padding: 3rem 4rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
+}
+
+.upload-section {
+  background: linear-gradient(135deg, #3f51b5, #1a237e);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+  button {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.mat-mdc-table {
+  width: 100%;
+  margin-top: 2rem;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.mat-mdc-header-cell {
+  background: #f8f9fa;
+  color: #1a237e;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.mat-mdc-cell {
+  padding: 1rem;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+
+  button {
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.mat-column-size {
+  width: 100px;
+}
+
+.mat-column-status {
+  width: 150px;
+}
+
+.mat-column-created {
+  width: 200px;
+}
+
+mat-progress-bar {
+  margin-top: 8px;
+  height: 4px;
+}
