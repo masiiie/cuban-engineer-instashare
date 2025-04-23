@@ -1,4 +1,5 @@
 using InstaShare.Domain.Entities.Common;
+using System.Text.Json.Serialization;
 
 namespace InstaShare.Domain.Entities.Files
 {
@@ -45,6 +46,7 @@ namespace InstaShare.Domain.Entities.Files
         }
     }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum FileStatus
     {
         OnlyInDbNoContent,
