@@ -10,15 +10,30 @@ public class PostgresTestDatabaseFixture : IAsyncLifetime
     public async Task InitializeAsync()
     {        
         PostgreSqlContainer = new PostgreSqlBuilder()
-        .WithImage("postgis/postgis:latest")
-        .WithDatabase("instashare")
-        .Build();
+            .WithImage("postgis/postgis:latest")
+            .WithDatabase("instashare")
+            .Build();
 
         await PostgreSqlContainer.StartAsync();
     }
 
     public async Task DisposeAsync()
     {
-        await PostgreSqlContainer.StopAsync();
+        if (PostgreSqlContainer != null)
+        {
+            try
+            {
+                await PostgreSqlContainer.StopAsync();
+            }
+            catch (Exception ex)
+            {
+                //_debugger.Write($"Failed to stop PostgreSqlContainer: {ex.Message}");
+                Console.WriteLine($"Failed to stop PostgreSqlContainer: {ex.Message}");
+            }
+        }
+        else
+        {
+            //_debugger.Write("PostgreSqlContainer was never initialized");
+        }
     }
 }
