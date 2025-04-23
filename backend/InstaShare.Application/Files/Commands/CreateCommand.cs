@@ -4,6 +4,13 @@ using MediatR;
 
 namespace InstaShare.Application.Files.Commands;
 
+public record CreateFileDto
+{
+    public required string name { get; init; }
+    public required long size { get; init; }
+    public required FileStatus status { get; init; }
+}
+
 public sealed record CreateFileCommand(string fileName, FileStatus fileStatus, long fileSize) : IRequest<InstaShareFile>;
 public sealed class CreateFileCommandHandler : IRequestHandler<CreateFileCommand, InstaShareFile>
 {

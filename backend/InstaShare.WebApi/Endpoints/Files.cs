@@ -21,6 +21,8 @@ public static class EndpointsInstaShareFilesExtension
             return Results.Ok(new GetFileDto(file));
         }).Produces<GetFileDto>();
 
+        /*
+        //  no tiene sentido crear un nuevo File de esta manera
         app.MapPost("/files", async (CreateFileDto createFileDto, IMediator mediator) =>
         {
             var command = new CreateFileCommand(
@@ -32,6 +34,7 @@ public static class EndpointsInstaShareFilesExtension
         }).DisableAntiforgery()
           .Accepts<CreateFileDto>("application/json")
           .Produces<GetFileDto>();
+        */
 
         app.MapPut("/files/{id}", async (long id, UpdateFileDto updateFileDto, IMediator mediator) =>
         {

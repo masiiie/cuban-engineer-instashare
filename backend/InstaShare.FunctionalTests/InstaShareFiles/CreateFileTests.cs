@@ -14,15 +14,15 @@ public class CreateFileTests : BaseFunctionalTest
     {
     }
 
-    [Fact]
+    [Fact(Skip = "Deshabilitado para siempre. Este endpoint no se va a usar en la app. Es incorrecto poder crear un file sin asignarle contenido desde el principio.")]
     public async Task CreateFile_ReturnsOkResult()
     {
         // Arrange
         var createFileDto = new
         {
-            FileName = "testfile.txt",
-            FileSize = 1024,
-            FileType = "text/plain"
+            name = "testfile.txt",
+            size = 1024,
+            status = "Zipped"
         };
         var content = new StringContent(JsonConvert.SerializeObject(createFileDto), Encoding.UTF8, "application/json");
 
@@ -34,5 +34,4 @@ public class CreateFileTests : BaseFunctionalTest
         var responseString = await response.Content.ReadAsStringAsync();
         Assert.Contains("testfile.txt", responseString);
     }
-}   
-
+}
