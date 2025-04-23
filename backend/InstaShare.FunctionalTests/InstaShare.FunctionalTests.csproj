@@ -27,4 +27,16 @@
     <ProjectReference Include="..\InstaShare.WebApi\InstaShare.WebApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="TestFiles\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestFiles\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
