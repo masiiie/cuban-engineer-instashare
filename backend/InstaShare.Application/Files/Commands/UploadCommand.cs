@@ -20,8 +20,9 @@ public class UploadFileCommandHandler : IRequestHandler<UploadFileCommand, Insta
 
     public async Task<InstaShareFile> Handle(UploadFileCommand request, CancellationToken cancellationToken)
     {
+        string newName = request.FileName.Replace(" ", "_").ToLower();
         // Upload to blob storage
-        var blobUrl = await _blobStorageService.UploadFileAsync(request.FileStream, request.FileName);
+        var blobUrl = await _blobStorageService.UploadFileAsync(request.FileStream, newName);
 
         // Create file entity
         var file = new InstaShareFile(
