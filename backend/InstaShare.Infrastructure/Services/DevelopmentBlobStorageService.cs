@@ -5,12 +5,8 @@ namespace InstaShare.Infrastructure.Services;
 
 public class DevelopmentBlobStorageService : IBlobStorageService
 {
-    private readonly string _localStoragePath;
-
     public DevelopmentBlobStorageService(IConfiguration configuration)
     {
-        //_localStoragePath = configuration["DevelopmentStorage:Path"] ?? Path.Combine(Directory.GetCurrentDirectory(), "dev-storage");
-        //Directory.CreateDirectory(_localStoragePath);
     }
 
     public async Task<string> UploadFileAsync(Stream fileStream, string fileName)
@@ -29,5 +25,15 @@ public class DevelopmentBlobStorageService : IBlobStorageService
     {
         // Simulate delay
         await Task.Delay(100);
+    }
+
+    public async Task<Stream> DownloadFileAsync(string blobUrl)
+    {
+        // Simulate delay
+        await Task.Delay(100);
+        
+        // For development, return a simple memory stream with some test content
+        var content = "This is a test file content from development storage";
+        return new MemoryStream(System.Text.Encoding.UTF8.GetBytes(content));
     }
 }

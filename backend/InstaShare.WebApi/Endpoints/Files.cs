@@ -21,6 +21,15 @@ public static class EndpointsInstaShareFilesExtension
             return Results.Ok(new GetFileDto(file));
         }).Produces<GetFileDto>();
 
+        app.MapGet("/files/download/{id}", async (long id, IMediator mediator) =>
+        {
+            var result = await mediator.Send(new DownloadFileQuery(id));
+            return Results.File(
+                result.Content,
+                result.ContentType,
+                result.FileName);
+        });
+
         /*
         //  no tiene sentido crear un nuevo File de esta manera
         app.MapPost("/files", async (CreateFileDto createFileDto, IMediator mediator) =>
