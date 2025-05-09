@@ -10,7 +10,11 @@ public class BlobStorageService : IBlobStorageService
 
     public BlobStorageService(IConfiguration configuration)
     {
-        var connectionString = configuration["StorageConfig:UseAzurite"] ? configuration.GetConnectionString("AzuriteConnection") : configuration.GetConnectionString("AzureBlobStorage");
+        var useAzuriteStr = configuration["StorageConfig:UseAzurite"];
+        bool useAzurite = false;
+        bool.TryParse(useAzuriteStr, out useAzurite);
+    
+        var connectionString = useAzurite ? configuration.GetConnectionString("AzuriteConnection") : configuration.GetConnectionString("AzureBlobStorage");
         var containerName = configuration["BlobContainerName"] ?? "instashare-files";
         
         // Create BlobServiceClient
