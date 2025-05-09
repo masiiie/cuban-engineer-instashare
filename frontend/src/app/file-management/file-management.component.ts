@@ -28,7 +28,8 @@ export class FileManagementComponent implements OnInit, OnDestroy {
   files$: Observable<InstaShareFile[]>;
   displayedColumns: string[] = ['name', 'status', 'size', 'created', 'actions'];
   private refreshSubscription: Subscription = new Subscription();
-  
+  downloadingFiles = new Set<number>();
+
   constructor(
     private fileService: FileService,
     private snackBar: MatSnackBar
@@ -54,6 +55,11 @@ export class FileManagementComponent implements OnInit, OnDestroy {
   }
 
   downloadFile(file: InstaShareFile): void {
+    if (this.downloadingFiles.has(file.id)) {
+      return; // Prevent multiple downloads of the same file
+    }
+
+    this.downloadingFiles.add(file.id);
     this.fileService.downloadFile(file.id).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -64,12 +70,20 @@ export class FileManagementComponent implements OnInit, OnDestroy {
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
+        this.downloadingFiles.delete(file.id);
+        this.snackBar.open(`Downloaded ${file.name} successfully`, 'Close', { duration: 3000 });
       },
       error: (error) => {
-        this.snackBar.open('Error downloading file', 'Close', { duration: 3000 });
+        this.downloadingFiles.delete(file.id);
+        const errorMessage = error.status === 404 ? 'File not found' : 'Error downloading file';
+        this.snackBar.open(errorMessage, 'Close', { duration: 3000 });
         console.error('Download error:', error);
       }
     });
+  }
+
+  isDownloading(fileId: number): boolean {
+    return this.downloadingFiles.has(fileId);
   }
 
   deleteFile(file: InstaShareFile): void {

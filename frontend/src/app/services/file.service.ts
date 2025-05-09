@@ -37,7 +37,7 @@ export class FileService {
   }
 
   downloadFile(id: number): Observable<Blob> {
-    return this.http.get(`${this.instaShareApiUrl}/${id}/download`, { responseType: 'blob' });
+    return this.http.get(`${this.instaShareApiUrl}/download/${id}`, { responseType: 'blob' });
   }
 
   // New methods for file list refresh
